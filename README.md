@@ -11,7 +11,7 @@ To launch a container from this image, you must have [Docker](https://www.docker
 If already, run the below command:
 
 ```shell
-$ docker run -d --name chromedock -p 4444:44445 syncloudsoftech/chromedock
+$ docker run -d --name chromedock -p 4444:4444 syncloudsoftech/chromedock
 ```
 
 To start/stop the (named) container at a later point in time, use below commnads:
