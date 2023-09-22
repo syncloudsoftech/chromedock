@@ -41,7 +41,6 @@ USER chrome
 
 WORKDIR /home/chrome
 
-ENV CHROMEDRIVER_PORT 4444
 ENV DISPLAY :99
 
 CMD ["sh", "-c", "supervisord -c /etc/supervisor/supervisor.conf --logfile /dev/null --pidfile /dev/null"]
