@@ -34,8 +34,6 @@ version: '3'
 services:
   chromedock:
     image: syncloudsoftech/chromedock
-    environment:
-      PORT: '4444' # optional
     ports:
       - '4444:4444'
 ```
