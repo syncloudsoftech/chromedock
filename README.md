@@ -29,13 +29,13 @@ $ docker stop chromedock
 To include this container as a service in your existing `docker-compose.yml` setup, use below definition:
 
 ```yml
-version: '3'
+version: "3"
 
 services:
   chromedock:
     image: syncloudsoftech/chromedock
     ports:
-      - '4444:4444'
+      - "4444:4444"
 ```
 
 ## Development
