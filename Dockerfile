@@ -1,5 +1,7 @@
 FROM debian:bookworm-slim
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update && \
     apt-get install -y gnupg unzip wget && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -29,18 +31,21 @@ RUN CHROME_VERSION=$(google-chrome --version | sed -E "s/.* ([0-9]+)(\.[0-9]+){3
     ln -fs /opt/chromedriver/chromedriver-$CHROMEDRIVER_VERSION /usr/bin/chromedriver
 
 RUN apt-get update && \
+    apt-get install -y fluxbox pulseaudio x11vnc && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN groupadd -r chrome && \
+    useradd -rm -g chrome -G audio,pulse-access,video chrome && \
+    usermod -s /bin/bash chrome
+
+RUN apt-get update && \
     apt-get install -y supervisor && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 
-RUN groupadd -r chrome && \
-    useradd -rm -g chrome -G audio,video chrome
-
 USER chrome
 
 WORKDIR /home/chrome
-
-ENV DISPLAY :99
 
 CMD ["sh", "-c", "supervisord -c /etc/supervisor/supervisor.conf --logfile /dev/null --pidfile /dev/null"]
