@@ -61,6 +61,51 @@ services:
       - "5900:5900"
 ```
 
+If you wish to use the `--user-data-dir` option for persisting sessions, you need to create a directory under `/home/chrome` folder and use its abosolue path with [Chrome](https://www.google.com/chrome/) arguments:
+
+```Dockerfile
+FROM syncloudsoftech/chromedock
+
+RUN mkdir -p /home/chrome/data && \
+    chown chrome:chrome /home/chrome/data
+```
+
+Then run as below:
+
+```shell
+# build the container
+$ docker build -t chromedock .
+
+# create a "data" directory
+$ mkdir data
+
+# start the container
+$ docker run --rm -it -p 4444:4444 -p 5900:5900 -v ./data:/home/chrome/data chromedock
+```
+
+If using `docker-compose.yml` file, you can do as below:
+
+```yml
+version: "3"
+
+services:
+  chromedock:
+    build:
+      dockerfile_inline: |
+        FROM syncloudsoftech/chromedock
+        RUN mkdir -p /home/chrome/data && \
+        chown chrome:chrome /home/chrome/data
+    image: syncloudsoftech/chromedock
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    volumes:
+      - chromedock-data:/home/chrome/data
+
+volumes:
+  chromedock-data:
+```
+
 ## Development
 
 Building or modifying the container yourself from source is also quite easy.
